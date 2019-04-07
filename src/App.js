@@ -26,18 +26,22 @@ function usePersistentState(init) {
   return [value, setValue]
 }
 
-function App() {
+// our second custom hook: a composition of the first custom hook // and React's useEffect + useRef
+function usePersistentCanvas() {
   const [locations, setLocations] = usePersistentState([])
+
   const canvasRef = React.useRef(null)
+
   React.useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
-    ctx.clearRect(0, 0, window.innerHeight, window.innerWidth)
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
     locations.forEach(location => draw(ctx, location))
   })
-  React.useEffect(() => {
-    localStorage.setItem("draw-app", JSON.stringify(locations))
-  })
+  return [locations, setLocations, canvasRef]
+}
+function App() {
+  const [locations, setLocations, canvasRef] = usePersistentCanvas()
   function handleCanvasClick(e) {
     const newLocation = { x: e.clientX, y: e.clientY }
     setLocations([...locations, newLocation])
