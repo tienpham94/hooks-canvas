@@ -13,6 +13,7 @@ function draw(ctx, location) {
   ctx.fill(HOOK_PATH)
   ctx.restore()
 }
+
 function App() {
   const [locations, setLocations] = React.useState([])
   const canvasRef = React.useRef(null)
@@ -29,9 +30,13 @@ function App() {
   function handleClear() {
     setLocations([])
   }
+  function handleUndo() {
+    setLocations(locations.slice(0, -1))
+  }
   return (
     <>
       <button onClick={handleClear}>Clear</button>
+      <button onClick={handleUndo}>Undo</button>
       <canvas
         ref={canvasRef}
         width={window.innerWidth}
@@ -42,3 +47,4 @@ function App() {
   )
 }
 export default App
+
