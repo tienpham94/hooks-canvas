@@ -14,6 +14,7 @@ function draw(ctx, location) {
   ctx.restore()
 }
 function App() {
+  const [locations, setLocations] = React.useState([])
   const canvasRef = React.useRef(null)
   return (
     <canvas
@@ -23,7 +24,9 @@ function App() {
       onClick={e => {
         const canvas = canvasRef.current
         const ctx = canvas.getContext('2d')
-        draw(ctx, { x: e.clientX, y: e.clientY })
+        const newLocation = { x: e.clientX, y: e.clientY }
+        setLocations([...locations, newLocation])
+        draw(ctx, newLocation)
       }}
     />
   )
