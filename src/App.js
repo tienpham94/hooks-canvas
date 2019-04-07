@@ -15,13 +15,17 @@ function draw(ctx, location) {
 }
 
 function App() {
-  const [locations, setLocations] = React.useState([])
+  const [locations, setLocations] = React.useState(
+    JSON.parse(localStorage.getItem('draw-app')) || []  )
   const canvasRef = React.useRef(null)
   React.useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     ctx.clearRect(0, 0, window.innerHeight, window.innerWidth)
     locations.forEach(location => draw(ctx, location))
+  })
+  React.useEffect(() => {
+    localStorage.setItem('draw-app', JSON.stringify(locations))
   })
   function handleCanvasClick(e) {
     const newLocation = { x: e.clientX, y: e.clientY }
@@ -49,4 +53,5 @@ function App() {
   )
 }
 export default App
+
 
