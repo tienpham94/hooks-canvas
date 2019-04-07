@@ -22,16 +22,23 @@ function App() {
     ctx.clearRect(0, 0, window.innerHeight, window.innerWidth)
     locations.forEach(location => draw(ctx, location))
   })
+  function handleCanvasClick(e) {
+    const newLocation = { x: e.clientX, y: e.clientY }
+    setLocations([...locations, newLocation])
+  }
+  function handleClear() {
+    setLocations([])
+  }
   return (
-    <canvas
-      ref={canvasRef}
-      width={window.innerWidth}
-      height={window.innerHeight}
-      onClick={e => {
-        const newLocation = { x: e.clientX, y: e.clientY }
-        setLocations([...locations, newLocation])
-      }}
-    />
+    <>
+      <button onClick={handleClear}>Clear</button>
+      <canvas
+        ref={canvasRef}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        onClick={handleCanvasClick}
+      />
+    </>
   )
 }
 export default App
